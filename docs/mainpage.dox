@@ -1,23 +1,13 @@
 /**
-@mainpage cpp-foundations
-
-Este repositorio es la plantilla del curso para practicar C++.
-El tooling (CMake, tests, CI, coverage y docs) ya está implementado.
-
-@section student_policy Política de trabajo del alumno
-El alumno solo debe modificar archivos bajo:
-- student/**
-
-Cualquier cambio fuera de student/ hará fallar el CI.
-
-@section modules Módulos (evolutivos)
-- MathUtils (Clamp, Map, etc.)
-
-@section build Build local (resumen)
-@code{.sh}
-cmake -S . -B build -DENABLE_TESTING=ON -DCMAKE_BUILD_TYPE=Debug
-cmake --build build
-cd build
-ctest --output-on-failure
-@endcode
-*/
+ * @mainpage Cpp Foundations
+ *
+ * @section welcome Bienvenido
+ * Este repositorio contiene:
+ * - Código base y ejercicios (carpeta `student/`)
+ * - Pruebas unitarias (carpeta `tests/`)
+ * - Reportes publicados (Unit Tests / Coverage / Doxygen)
+ * - Material del curso en Doxygen (Topics)
+ *
+ * @section start_here Empezar aquí
+ * - Ve a: @ref course_cpp_foundations
+ */

@@ -1,0 +1,25 @@
+/**
+ * @defgroup lesson_01_intro Lección 01 — Introducción a C/C++ y el flujo de compilación
+ * @ingroup course_cpp_foundations
+ * @brief Objetivos, teoría y actividad de la lección 01.
+ *
+ * @section l01_objectives Objetivos
+ * - Entender qué es compilar vs linkear.
+ * - Diferenciar archivo fuente (.cpp), header (.h/.hpp) y librería.
+ * - Ejecutar el pipeline del repo: build + tests.
+ *
+ * @section l01_reading Contenido
+ * - Translation units (unidad de compilación)
+ * - Símbolos, linker, “undefined reference”
+ * - Estructura mínima de un proyecto
+ *
+ * @section l01_activity Actividad
+ * **Actividad 01 (autoevaluable):**
+ * - Completa `student/src/MathUtils.cpp` para que pasen las pruebas.
+ *
+ * @section l01_deliverable Entregable
+ * - Pull Request con cambios únicamente en `student/`
+ *
+ * @section l01_rubric Evaluación
+ * - % de tests pasados: 100% del puntaje de la actividad
+ */

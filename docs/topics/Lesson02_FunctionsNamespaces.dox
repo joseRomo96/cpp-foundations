@@ -1,0 +1,25 @@
+/**
+ * @defgroup lesson_02_functions_namespaces Lección 02 — Funciones, scope y namespaces
+ * @ingroup course_cpp_foundations
+ * @brief Objetivos, teoría y actividad de la lección 02.
+ *
+ * @section l02_objectives Objetivos
+ * - Dominar paso de parámetros (por valor y por referencia).
+ * - Entender scope (bloque/función/archivo) y visibilidad.
+ * - Usar namespaces para evitar colisiones de nombres.
+ *
+ * @section l02_reading Contenido
+ * - Declaración vs definición
+ * - Prototipos de función
+ * - `namespace` y el operador `::`
+ *
+ * @section l02_activity Actividad
+ * - Implementar funciones adicionales en `student/` siguiendo headers existentes.
+ * - Agregar pruebas nuevas (solo si el instructor lo pide; alumnos no modifican `tests/`).
+ *
+ * @section l02_deliverable Entregable
+ * - Pull Request con cambios únicamente en `student/`
+ *
+ * @section l02_rubric Evaluación
+ * - % de tests pasados: 100% del puntaje de la actividad
+ */
