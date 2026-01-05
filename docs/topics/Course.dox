@@ -1,17 +1,10 @@
 /**
- * @defgroup course_cpp_foundations Cpp Foundations (Curso)
- * @brief Material del curso, lecciones y entregables.
+ * @defgroup cpp_course C++ Foundations – Course
+ * @brief Curso completo: lecciones, estructura y navegación.
  *
- * Bienvenido al curso **Cpp Foundations**. Aquí se publican las lecciones, objetivos,
- * actividades y criterios de evaluación.
- *
- * @section course_index Lecciones
- * - @ref lesson_01_intro
- * - @ref lesson_02_functions_namespaces
- * - @ref lesson_03_headers_compilation
- * - @ref lesson_04_memory_const_static
- * - @ref lesson_05_procedural_miniproject
+ * Este grupo contiene todas las lecciones del curso.
  *
  * @{
  */
-/// @}
+
+/** @} */
