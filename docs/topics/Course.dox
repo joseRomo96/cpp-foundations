@@ -1,10 +1,22 @@
 /**
  * @defgroup cpp_course C++ Foundations – Course
- * @brief Curso completo: lecciones, estructura y navegación.
+ * @brief Índice del curso y contenedor de lecciones.
  *
- * Este grupo contiene todas las lecciones del curso.
+ * Este grupo define el orden de navegación del curso.
  *
  * @{
+ */
+
+/**
+ * @defgroup cpp_lesson_00 Lesson 00
+ * @ingroup cpp_course
+ * @brief Introducción al repositorio y flujo de trabajo.
+ */
+
+/**
+ * @defgroup cpp_lesson_01 Lesson 01
+ * @ingroup cpp_course
+ * @brief Tipos de datos, scope y calificadores.
  */
 
 /** @} */
