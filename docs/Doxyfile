@@ -1,0 +1,33 @@
+# Doxygen configuration for cpp-foundations
+
+PROJECT_NAME           = "cpp-foundations"
+OUTPUT_DIRECTORY       = docs_out
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+
+# Input
+INPUT                  = student/include student/src docs/mainpage.dox README.md
+FILE_PATTERNS          = *.h *.hpp *.cpp *.dox *.md
+RECURSIVE              = YES
+
+# Extract settings
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = YES
+
+# Make docs readable
+JAVADOC_AUTOBRIEF      = YES
+MULTILINE_CPP_IS_BRIEF = YES
+OPTIMIZE_OUTPUT_FOR_C  = NO
+
+# Warnings
+WARN_IF_UNDOCUMENTED   = NO
+WARN_IF_DOC_ERROR      = YES
+
+# Preprocessor
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = NO
+
+# Useful defaults
+QUIET                  = YES
