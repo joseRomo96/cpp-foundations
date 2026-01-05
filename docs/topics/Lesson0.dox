@@ -2,22 +2,22 @@
  * @page cpp_lesson_00_page Lesson 00 – Configuración del entorno de trabajo (local)
  * @ingroup cpp_lesson_00
  *
- * @brief Esta lección explica cómo preparar tu entorno para trabajar con el repositorio
- *        cpp-foundations y cómo compilar, ejecutar pruebas y realizar el flujo inicial
- *        de trabajo con Git de forma correcta.
+ * @brief Esta lección explica cómo preparar el entorno de trabajo para el curso
+ *        cpp-foundations, cómo crear el repositorio del estudiante a partir del
+ *        template, y cómo compilar, probar y versionar el proyecto correctamente.
  *
  * ----------------------------------------------------------------------
  *
  * @section lesson00_objectives Objetivos
  *
  * Al finalizar esta lección, el estudiante será capaz de:
- * - Instalar y verificar las herramientas necesarias para el curso
- * - Clonar el repositorio y entender la estructura mínima
- * - Configurar un flujo local con CMake (build fuera del árbol)
- * - Compilar el proyecto en modo Debug/Release
- * - Ejecutar pruebas localmente usando CTest
- * - Realizar su commit inicial correctamente
- * - Entender las reglas de protección del repositorio
+ * - Crear su repositorio personal usando un template de GitHub
+ * - Clonar y preparar el proyecto localmente
+ * - Instalar y verificar las herramientas necesarias
+ * - Compilar el proyecto usando CMake
+ * - Ejecutar pruebas localmente con CTest
+ * - Entender las reglas de protección del curso
+ * - Realizar su commit inicial de forma correcta
  *
  * ----------------------------------------------------------------------
  *
@@ -30,7 +30,7 @@
  * - CMake
  *
  * Recomendado:
- * - Un editor como VS Code, CLion o similar
+ * - Un editor de código (VS Code, CLion, etc.)
  * - Un depurador (gdb o lldb)
  *
  * ----------------------------------------------------------------------
@@ -40,7 +40,7 @@
  * El curso funciona en:
  * - Linux (recomendado)
  * - macOS
- * - Windows usando WSL (recomendado sobre MSVC para este curso)
+ * - Windows usando WSL2
  *
  * ----------------------------------------------------------------------
  *
@@ -81,21 +81,45 @@
  * cmake --version
  * @endcode
  *
+ * Si alguno de estos comandos falla, el entorno no está listo.
+ *
  * ----------------------------------------------------------------------
  *
- * @section lesson00_repo Clonar y preparar el repositorio
+ * @section lesson00_repo_template Uso del repositorio como template
+ *
+ * El repositorio cpp-foundations **se utiliza como template**.
+ *
+ * Este paso se realiza **una sola vez**, directamente en GitHub.
+ *
+ * Pasos:
+ * 1. Ir al repositorio base:
+ *    https://github.com/ChecheRomo96/cpp-foundations
+ *
+ * 2. Hacer clic en **Use this template**
+ *
+ * 3. Crear el repositorio personal del curso
+ *
+ * El repositorio resultante es **independiente** y pertenece al estudiante.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @subsection lesson00_repo_clone Clonado del repositorio del estudiante
+ *
+ * Una vez creado el repositorio a partir del template, se clona localmente:
  *
  * @code
- * git clone https://github.com/ChecheRomo96/cpp-foundations.git
+ * git clone https://github.com/<tu-usuario>/cpp-foundations.git
  * cd cpp-foundations
  * git status
  * @endcode
+ *
+ * A partir de este punto, todo el trabajo se realiza sobre este repositorio.
  *
  * ----------------------------------------------------------------------
  *
  * @section lesson00_course_guard Protección del curso (COURSE_GUARD_ENABLED)
  *
- * Este repositorio incluye un mecanismo de protección del curso.
+ * El repositorio incluye un mecanismo de protección del curso.
  *
  * La variable:
  *
@@ -105,17 +129,12 @@
  *
  * indica que el repositorio está operando en **modo curso**.
  *
- * Cuando esta variable está habilitada:
- * - El CI valida que **solo se modifique la carpeta `student/`**
+ * Cuando está habilitada:
+ * - El CI valida que solo se modifique la carpeta `student/`
  * - Cambios fuera de `student/` provocan falla automática
- * - El flujo de trabajo del curso se hace cumplir estrictamente
+ * - La estructura del curso queda protegida
  *
- * Esta variable **NO debe ser modificada por el estudiante**.
- *
- * Su propósito es:
- * - Proteger la estructura del curso
- * - Evitar modificaciones accidentales
- * - Garantizar evaluaciones justas y consistentes
+ * Esta variable **no debe ser modificada por el estudiante**.
  *
  * ----------------------------------------------------------------------
  *
@@ -134,7 +153,7 @@
  * @endcode
  *
  * Regla del curso:
- * - El estudiante **solo modifica `student/`**
+ * - El estudiante solo modifica `student/`
  *
  * ----------------------------------------------------------------------
  *
@@ -142,31 +161,33 @@
  *
  * Los archivos generados por la compilación **no deben versionarse**.
  *
- * En particular, la carpeta:
+ * En particular:
  *
  * @code
  * build/
  * @endcode
  *
- * debe estar listada en `.gitignore`.
+ * debe estar listado en `.gitignore`.
  *
- * Ejemplo mínimo de `.gitignore` usado en este curso:
+ * Ejemplo mínimo:
  *
  * @code
  * build/
  * build-*/
  * *.o
- * *.exe
  * *.out
+ * *.exe
  * CMakeCache.txt
  * CMakeFiles/
  * @endcode
  *
- * Subir archivos de `build/` invalida el commit.
+ * Subir archivos de build invalida el commit.
  *
  * ----------------------------------------------------------------------
  *
- * @section lesson00_build Flujo de compilación local con CMake
+ * @section lesson00_build Compilación local con CMake
+ *
+ * Flujo recomendado (build fuera del árbol):
  *
  * @code
  * mkdir -p build
@@ -176,7 +197,7 @@
  *
  * ----------------------------------------------------------------------
  *
- * @section lesson00_tests Ejecutar pruebas localmente
+ * @section lesson00_tests Ejecución de pruebas locales
  *
  * @code
  * ctest --test-dir build --output-on-failure
@@ -184,15 +205,15 @@
  *
  * ----------------------------------------------------------------------
  *
- * @section lesson00_git_workflow Commit inicial obligatorio
+ * @section lesson00_git_commit Commit inicial obligatorio
  *
- * Una vez que el proyecto:
+ * Una vez verificado que el proyecto:
  * - Compila correctamente
  * - Ejecuta pruebas sin errores
  *
  * el estudiante **debe realizar su commit inicial**.
  *
- * @subsection lesson00_git_initial_commit Pasos del commit inicial
+ * @subsection lesson00_git_commit_steps Pasos del commit inicial
  *
  * @code
  * git status
@@ -217,7 +238,7 @@
  * Antes de pasar a Lesson 01, el estudiante debe poder ejecutar:
  *
  * @code
- * git clone https://github.com/ChecheRomo96/cpp-foundations.git
+ * git clone https://github.com/<tu-usuario>/cpp-foundations.git
  * cd cpp-foundations
  * cmake -S . -B build
  * cmake --build build
