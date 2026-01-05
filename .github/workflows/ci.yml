@@ -82,14 +82,11 @@ jobs:
       - name: Build
         run: cmake --build build
 
-      # IMPORTANT:
-      # Use ctest from inside build/ so .gcda files are generated where lcov expects them.
       - name: Run tests (ctest)
         run: |
           cd build
           ctest --output-on-failure
 
-      # Export gtest XML for unit test HTML report (run from build/)
       - name: Export gtest xml
         run: |
           cd build
@@ -153,6 +150,13 @@ jobs:
       # --------------------------------------------------
       # Coverage
       # --------------------------------------------------
+      - name: Debug coverage files (gcno/gcda)
+        run: |
+          echo "GCNO:"
+          find build -name "*.gcno" | head -n 50 || true
+          echo "GCDA:"
+          find build -name "*.gcda" | head -n 50 || true
+
       - name: Generate coverage report
         run: |
           lcov --directory build \
@@ -198,6 +202,29 @@ jobs:
           </body>
           </html>
           EOF
+
+      # --------------------------------------------------
+      # Debug Pages: confirm what will be published
+      # --------------------------------------------------
+      - name: Debug Pages: context
+        run: |
+          echo "REF: $GITHUB_REF"
+          echo "EVENT: $GITHUB_EVENT_NAME"
+
+      - name: Debug Pages: list site tree
+        run: |
+          echo "===== site/ files (maxdepth 3) ====="
+          find site -maxdepth 3 -type f | sort || true
+
+      - name: Debug Pages: disk usage
+        run: |
+          echo "===== site/ sizes ====="
+          du -h site || true
+
+      - name: Debug Pages: preview index.html
+        run: |
+          echo "===== site/index.html ====="
+          sed -n '1,200p' site/index.html || echo "index.html missing"
 
       # --------------------------------------------------
       # Publish to GitHub Pages
