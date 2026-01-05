@@ -5,14 +5,13 @@ on:
     branches: ["main"]
   pull_request:
 
+# Needed so the gh-pages publish step can push
 permissions:
   contents: write
 
 jobs:
   build_test_publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout
@@ -72,30 +71,60 @@ jobs:
           sudo apt-get install -y cmake g++ lcov doxygen graphviz python3
 
       # --------------------------------------------------
-      # Build + Tests (FORCE COVERAGE FLAGS HERE)
+      # Configure / Build (clean configure, coverage enabled)
       # --------------------------------------------------
+      - name: Clean build dir
+        run: rm -rf build
+
       - name: Configure (coverage)
-        run: cmake -S . -B build \
-          -DENABLE_TESTING=ON \
-          -DENABLE_COVERAGE=ON \
-          -DCMAKE_BUILD_TYPE=Debug
+        run: |
+          cmake -S . -B build \
+            -DENABLE_TESTING=ON \
+            -DENABLE_COVERAGE=ON \
+            -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build
         run: cmake --build build
 
-      # Run the instrumented binary to generate .gcda
+      # --------------------------------------------------
+      # HARD ASSERT: coverage instrumentation exists
+      # --------------------------------------------------
+      - name: Assert gcno exists (compile-time)
+        run: |
+          set -euxo pipefail
+          GCNO_COUNT="$(find build -name '*.gcno' | wc -l)"
+          echo "GCNO_COUNT=$GCNO_COUNT"
+          find build -name '*.gcno' | head -n 30 || true
+          if [ "$GCNO_COUNT" -eq 0 ]; then
+            echo "ERROR: No .gcno files found. Coverage flags not applied at compile time."
+            exit 1
+          fi
+
+      # --------------------------------------------------
+      # Run tests (generate gcda) + export XML
+      # --------------------------------------------------
       - name: Run UnitTests (generate gcda)
         run: |
           set -euxo pipefail
-          echo "Looking for UnitTests..."
-          find build -maxdepth 4 -type f -name "UnitTests" -print
-          (cd build && ./UnitTests --gtest_brief=1)
+          cd build
+          ./UnitTests --gtest_brief=1
 
-      # Export gtest XML for unit test HTML report
       - name: Export gtest xml
         run: |
           set -euxo pipefail
-          (cd build && ./UnitTests --gtest_output=xml:../gtest.xml)
+          cd build
+          ./UnitTests --gtest_output=xml:../gtest.xml
+
+      - name: Assert gcda exists (runtime)
+        run: |
+          set -euxo pipefail
+          GCDA_COUNT="$(find build -name '*.gcda' | wc -l)"
+          echo "GCDA_COUNT=$GCDA_COUNT"
+          find build -name '*.gcda' | head -n 30 || true
+          if [ "$GCDA_COUNT" -eq 0 ]; then
+            echo "ERROR: No .gcda files found. Tests executed but no coverage data produced."
+            exit 1
+          fi
 
       # --------------------------------------------------
       # Prepare site structure
@@ -152,22 +181,25 @@ jobs:
           PY
 
       # --------------------------------------------------
-      # Coverage
+      # Debug: show flags and coverage files (helps if it breaks)
       # --------------------------------------------------
       - name: Debug show compile flags
         run: |
           echo "UnitTests flags.make:"
-          sed -n '1,160p' build/CMakeFiles/UnitTests.dir/flags.make || true
+          sed -n '1,200p' build/CMakeFiles/UnitTests.dir/flags.make || true
           echo "FoundationsLib flags.make:"
-          sed -n '1,160p' build/CMakeFiles/FoundationsLib.dir/flags.make || true
+          sed -n '1,200p' build/CMakeFiles/FoundationsLib.dir/flags.make || true
 
       - name: Debug coverage files (gcno/gcda)
         run: |
-          echo "GCNO:"
+          echo "GCNO (sample):"
           find build -name "*.gcno" | head -n 50 || true
-          echo "GCDA:"
+          echo "GCDA (sample):"
           find build -name "*.gcda" | head -n 50 || true
 
+      # --------------------------------------------------
+      # Coverage report (lcov/genhtml)
+      # --------------------------------------------------
       - name: Generate coverage report
         run: |
           set -euxo pipefail
@@ -175,32 +207,18 @@ jobs:
           lcov --directory build \
                --capture \
                --output-file coverage.info \
-               --ignore-errors mismatch,empty \
+               --ignore-errors mismatch \
                --rc geninfo_unexecuted_blocks=1
-
-          # If coverage.info is empty, create a placeholder and continue
-          if ! grep -q "^SF:" coverage.info; then
-            echo "No coverage data (coverage.info has no SF: entries). Creating placeholder page."
-            mkdir -p site/coverage
-            cat > site/coverage/index.html <<'EOF'
-
-          <!doctype html>
-          <html><body>
-          <h1>Coverage report</h1>
-          <p>No coverage data was generated (.gcno/.gcda not found). Check CI logs.</p>
-          </body></html>
-          EOF
-            exit 0
-          fi
 
           lcov --remove coverage.info \
             '/usr/*' \
             '*/_deps/*' \
             '*/tests/*' \
             --output-file coverage.filtered.info \
-            --ignore-errors mismatch,empty,unused \
+            --ignore-errors mismatch \
             --rc geninfo_unexecuted_blocks=1
 
+          lcov --summary coverage.filtered.info
           genhtml coverage.filtered.info --output-directory site/coverage
 
       # --------------------------------------------------
@@ -208,12 +226,11 @@ jobs:
       # --------------------------------------------------
       - name: Generate Doxygen docs
         run: |
-          set -euxo pipefail
           doxygen docs/Doxyfile
           cp -R docs_out/html/* site/doxygen/
 
       # --------------------------------------------------
-      # Landing page
+      # Landing page (no heredoc/EOF)
       # --------------------------------------------------
       - name: Create index page
         shell: bash
@@ -257,7 +274,7 @@ jobs:
           sed -n '1,200p' site/index.html || echo "index.html missing"
 
       # --------------------------------------------------
-      # Publish to GitHub Pages
+      # Publish to GitHub Pages (push to gh-pages branch)
       # --------------------------------------------------
       - name: Publish to GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
