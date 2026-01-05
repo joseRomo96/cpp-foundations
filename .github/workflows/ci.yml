@@ -153,7 +153,7 @@ jobs:
       # --------------------------------------------------
       # Coverage
       # --------------------------------------------------
-      - name: Debug: show compile flags
+      - name: Debug show compile flags
         run: |
           echo "UnitTests flags.make:"
           sed -n '1,160p' build/CMakeFiles/UnitTests.dir/flags.make || true
