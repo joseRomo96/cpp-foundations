@@ -1,102 +1,262 @@
 /**
- * @defgroup cpp_lesson_01 Lesson 01
+ * @defgroup cpp_lesson_00 Lesson 00
  * @ingroup cpp_course
- * @brief Tipos de datos, scope y calificadores.
+ * @brief Introducción al repositorio y flujo de trabajo.
  *
  * @{
  */
 
 /**
- * @page cpp_lesson_01_page Lesson 01 – Tipos de datos, scope y calificadores
- * @ingroup cpp_lesson_01
+ * @page cpp_lesson_00_page Lesson 00 – Introducción al repositorio y flujo de trabajo
+ * @ingroup cpp_lesson_00
  *
- * @brief Fundamentos de tipos de datos, alcance de variables y uso de
- *        calificadores como static y const en C++.
+ * @brief Onboarding técnico al curso cpp-foundations: entorno, herramientas,
+ *        estructura del repositorio y flujo de trabajo.
  *
- * @section lesson01_objectives Objetivos
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_objectives Objetivos
  *
  * Al finalizar esta lección, el estudiante será capaz de:
- * - Identificar los tipos de datos fundamentales en C++
- * - Comprender el concepto de scope (alcance) de las variables
- * - Diferenciar entre variables locales, globales y estáticas
- * - Usar correctamente los calificadores static y const
- * - Evitar errores comunes relacionados con vida útil y mutabilidad
+ * - Comprender el propósito del repositorio cpp-foundations
+ * - Configurar su entorno de trabajo para C++
+ * - Instalar y verificar las herramientas necesarias
+ * - Navegar correctamente la estructura del proyecto
+ * - Usar la terminal para interactuar con Git y el sistema
+ * - Seguir el flujo de trabajo esperado del curso
  *
  * ----------------------------------------------------------------------
  *
- * @section lesson01_types Tipos de datos fundamentales
+ * @section lesson00_about ¿Qué es cpp-foundations?
  *
- * C++ es un lenguaje fuertemente tipado. Cada variable tiene un tipo
- * que define memoria, operaciones válidas e interpretación del valor.
+ * cpp-foundations es un repositorio educativo diseñado para:
  *
- * @code
- * int contador = 0;
- * float voltaje = 3.3f;
- * bool activo = true;
- * @endcode
+ * - Enseñar C++ desde fundamentos reales
+ * - Promover buenas prácticas desde el inicio
+ * - Simular un entorno de trabajo profesional
+ * - Separar claramente código del alumno y código base
  *
- * ----------------------------------------------------------------------
- *
- * @section lesson01_scope Scope (alcance de las variables)
- *
- * @subsection lesson01_scope_local Scope local
- *
- * @code
- * void ejemplo() {
- *     int x = 10;
- * }
- * @endcode
- *
- * @subsection lesson01_scope_global Scope global
- *
- * @code
- * int g_contador = 0;
- *
- * void incrementar() {
- *     g_contador++;
- * }
- * @endcode
+ * Este repositorio NO es solo una colección de ejemplos,
+ * es un entorno de aprendizaje estructurado.
  *
  * ----------------------------------------------------------------------
  *
- * @section lesson01_static Variables static
+ * @section lesson00_environment Configuración del entorno de trabajo
  *
- * @subsection lesson01_static_function static dentro de funciones
+ * Antes de escribir código, es necesario preparar el entorno.
+ *
+ * @subsection lesson00_os Sistemas operativos soportados
+ *
+ * El curso está diseñado para funcionar en:
+ *
+ * - Linux (recomendado)
+ * - macOS
+ * - Windows (usando WSL)
+ *
+ * Se espera que el estudiante tenga acceso a una terminal tipo UNIX.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @subsection lesson00_tools Instalación de herramientas necesarias
+ *
+ * Las herramientas mínimas requeridas son:
+ *
+ * - Un compilador de C++ (g++ o clang++)
+ * - Git
+ * - CMake
+ * - Un editor de código
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @subsubsection lesson00_tools_linux Linux
  *
  * @code
- * void contador() {
- *     static int veces = 0;
- *     veces++;
- * }
- * @endcode
- *
- * @subsection lesson01_static_file static a nivel de archivo
- *
- * @code
- * static int archivoInterno = 42;
+ * sudo apt update
+ * sudo apt install build-essential git cmake
  * @endcode
  *
  * ----------------------------------------------------------------------
  *
- * @section lesson01_const El calificador const
+ * @subsubsection lesson00_tools_macos macOS
+ *
+ * Instalar Xcode Command Line Tools:
  *
  * @code
- * const int maxUsuarios = 10;
+ * xcode-select --install
+ * @endcode
+ *
+ * Instalar Homebrew (si no está instalado):
+ *
+ * @code
+ * /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+ * @endcode
+ *
+ * Instalar herramientas:
+ *
+ * @code
+ * brew install git cmake
  * @endcode
  *
  * ----------------------------------------------------------------------
  *
- * @section lesson01_const_static Combinación de const y static
+ * @subsubsection lesson00_tools_windows Windows (WSL)
+ *
+ * Se recomienda usar WSL con Ubuntu.
+ *
+ * Una vez dentro de WSL:
  *
  * @code
- * static const int bufferSize = 256;
+ * sudo apt update
+ * sudo apt install build-essential git cmake
  * @endcode
  *
  * ----------------------------------------------------------------------
  *
- * @section lesson01_next Siguiente lección
+ * @subsection lesson00_verify Verificación de herramientas
  *
- * Lesson 02 – Punteros, referencias y memoria
+ * Verifica que las herramientas estén instaladas correctamente:
+ *
+ * @code
+ * g++ --version
+ * git --version
+ * cmake --version
+ * @endcode
+ *
+ * Si alguno de estos comandos falla, el entorno NO está listo.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_repo_structure Estructura del repositorio
+ *
+ * La estructura general del repositorio es:
+ *
+ * @code
+ * cpp-foundations/
+ * ├── student/
+ * │   ├── include/
+ * │   └── src/
+ * ├── docs/
+ * │   └── topics/
+ * ├── README.md
+ * └── CMakeLists.txt
+ * @endcode
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @subsection lesson00_student_folder Carpeta student/
+ *
+ * Esta es la ÚNICA carpeta que el estudiante debe modificar.
+ *
+ * @code
+ * student/
+ * ├── include/   // Headers del alumno
+ * └── src/       // Código fuente del alumno
+ * @endcode
+ *
+ * Reglas importantes:
+ * - Todo el código del alumno vive aquí
+ * - No modificar archivos fuera de student/
+ * - El CI valida esta regla automáticamente
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_terminal Uso básico de la terminal
+ *
+ * La terminal es una herramienta fundamental para este curso.
+ *
+ * @subsection lesson00_terminal_navigation Navegación básica
+ *
+ * @code
+ * pwd        // muestra el directorio actual
+ * ls         // lista archivos
+ * cd folder  // cambia de directorio
+ * cd ..      // sube un nivel
+ * @endcode
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @subsection lesson00_terminal_files Manejo de archivos
+ *
+ * @code
+ * mkdir test
+ * touch main.cpp
+ * rm archivo.cpp
+ * @endcode
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_git Git básico (mínimo indispensable)
+ *
+ * Clonar el repositorio:
+ *
+ * @code
+ * git clone <url-del-repositorio>
+ * cd cpp-foundations
+ * @endcode
+ *
+ * Ver el estado del repositorio:
+ *
+ * @code
+ * git status
+ * @endcode
+ *
+ * Agregar cambios:
+ *
+ * @code
+ * git add student/
+ * @endcode
+ *
+ * Crear un commit:
+ *
+ * @code
+ * git commit -m "Lesson 00: environment setup"
+ * @endcode
+ *
+ * Subir cambios:
+ *
+ * @code
+ * git push
+ * @endcode
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_workflow Flujo de trabajo esperado
+ *
+ * El flujo de trabajo estándar del curso es:
+ *
+ * 1. Leer la lección
+ * 2. Implementar código en student/
+ * 3. Probar localmente
+ * 4. Crear commits pequeños y claros
+ * 5. Subir cambios
+ * 6. Verificar que el CI pase
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_ci Continuous Integration (CI)
+ *
+ * El repositorio utiliza GitHub Actions para verificar:
+ *
+ * - Que solo se modifique student/
+ * - Que el proyecto compile
+ * - Que los reportes se generen correctamente
+ *
+ * Si el CI falla, el cambio NO se considera válido.
+ *
+ * Aprender a leer errores del CI es parte del curso.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_keyidea Idea clave
+ *
+ * En este curso, el entorno, la estructura y el flujo de trabajo
+ * son tan importantes como el código.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_next Siguiente lección
+ *
+ * Lesson 01 – Tipos de datos, scope y calificadores
  */
 
 /** @} */
