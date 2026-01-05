@@ -6,9 +6,9 @@ GENERATE_HTML          = YES
 GENERATE_LATEX         = NO
 
 # Input
-INPUT                  = student/include student/src docs/mainpage.dox README.md
-FILE_PATTERNS          = *.h *.hpp *.cpp *.dox *.md
+INPUT                  = student/include student/src docs README.md
 RECURSIVE              = YES
+FILE_PATTERNS          = *.h *.hpp *.cpp *.dox *.md
 
 # Extract settings
 EXTRACT_ALL            = YES
