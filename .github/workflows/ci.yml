@@ -149,8 +149,9 @@ jobs:
           lcov --directory build \
                --capture \
                --output-file coverage.info \
-               --ignore-errors mismatch \
+               --ignore-errors mismatch,empty \
                --rc geninfo_unexecuted_blocks=1
+
 
           lcov --remove coverage.info \
             '/usr/*' \
