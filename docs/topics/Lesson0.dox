@@ -231,11 +231,18 @@
  * - Prevenir conflictos entre distintos entornos de desarrollo
  * - Reducir ruido innecesario en el historial de commits
  *
- * ----------------------------------------------------------------------
+ * ======================================================================
  *
- * @subsection lesson00_gitignore_build Archivos de compilación
+  * @subsection lesson00_gitignore_build Archivos de compilación
  *
- * En este curso, **los archivos generados por compilación deben permanecer locales**.
+ * Durante el proceso de compilación, el proyecto genera archivos
+ * **automáticos y dependientes del entorno local**.
+ *
+ * Estos archivos **no forman parte del código fuente** y **no deben
+ * versionarse** bajo ninguna circunstancia.
+ *
+ * En este curso, **los archivos generados por compilación deben permanecer
+ * exclusivamente en el entorno local del estudiante**.
  *
  * En particular, la carpeta:
  *
@@ -245,35 +252,74 @@
  *
  * **nunca debe subirse al repositorio**.
  *
- * ----------------------------------------------------------------------
+ * ======================================================================
  *
- * @subsection lesson00_gitignore_example Ejemplo mínimo de .gitignore
+ * @subsection lesson00_gitignore_example Ejemplo mínimo de `.gitignore`
  *
- * Un `.gitignore` mínimo utilizado en este curso es:
+ * A continuación se muestra un `.gitignore` representativo utilizado en este curso.
+ * Este archivo define qué elementos deben ser ignorados por Git y no incluidos
+ * en ningún commit.
  *
  * @code
+ * # --------------------------------------------------
+ * # Build directories
+ * # --------------------------------------------------
  * build/
- * build-*/
- * *.o
- * *.out
- * *.exe
+ * cmake-build-*/
+ *
+ * # --------------------------------------------------
+ * # CMake generated files
+ * # --------------------------------------------------
  * CMakeCache.txt
  * CMakeFiles/
+ * cmake_install.cmake
+ * CTestTestfile.cmake
+ * Makefile
+ *
+ * # --------------------------------------------------
+ * # Coverage files (local only)
+ * # --------------------------------------------------
+ * *.gcda
+ * *.gcno
+ * *.gcov
+ * coverage.info
+ * coverage.filtered.info
+ * coverage_html/
+ *
+ * # --------------------------------------------------
+ * # IDE / Editor files
+ * # --------------------------------------------------
+ * .vscode/
+ * .idea/
+ * *.swp
+ * *.swo
+ *
+ * # --------------------------------------------------
+ * # Operating system files
+ * # --------------------------------------------------
+ * .DS_Store
+ * Thumbs.db
+ *
+ * # --------------------------------------------------
+ * # Doxygen output (generated)
+ * # --------------------------------------------------
+ * docs_out/
  * @endcode
  *
  * Este archivo asegura que:
- * - Los binarios y archivos objeto no se versionen
+ * - Los archivos generados por compilación permanezcan locales
  * - Las carpetas de build no se incluyan en commits
- * - Los archivos generados por CMake permanezcan locales
+ * - Los archivos generados automáticamente por CMake no se versionen
+ * - Los archivos específicos del editor o del sistema operativo no contaminen el repositorio
  *
  * ----------------------------------------------------------------------
  *
  * @subsection lesson00_gitignore_rule Regla del curso
  *
- * Subir archivos de compilación (por ejemplo, la carpeta `build/`)
- * **invalida el commit**.
+ * Subir archivos de compilación, carpetas de build o cualquier archivo
+ * listado en `.gitignore` **invalida el commit**.
  *
- * El sistema de CI del curso está diseñado para detectar este tipo de errores
+ * El sistema de CI del curso está diseñado para detectar estas situaciones
  * y fallar automáticamente si esta regla no se respeta.
  * ======================================================================
  *
