@@ -312,15 +312,6 @@
  * - Los archivos generados automáticamente por CMake no se versionen
  * - Los archivos específicos del editor o del sistema operativo no contaminen el repositorio
  *
- * ----------------------------------------------------------------------
- *
- * @subsection lesson00_gitignore_rule Regla del curso
- *
- * Subir archivos de compilación, carpetas de build o cualquier archivo
- * listado en `.gitignore` **invalida el commit**.
- *
- * El sistema de CI del curso está diseñado para detectar estas situaciones
- * y fallar automáticamente si esta regla no se respeta.
  * ======================================================================
  *
  * @section lesson00_build Compilación local con CMake
@@ -398,7 +389,66 @@
  *
  * Si todo lo anterior funciona, el entorno y el flujo están listos.
  *
- * ======================================================================
+ * ----------------------------------------------------------------------
+ *
+ * @section lesson00_git_fix Arreglar un CI fallido después de un merge
+ *
+ * Es común que el CI falle cuando, después de hacer un merge o pull,
+ * se hayan incluido cambios fuera de la carpeta student/.
+ *
+ * Esto suele ocurrir por:
+ * - Usar `git add .`
+ * - Hacer un merge desde GitHub que arrastra archivos generados
+ * - Resolver conflictos sin cuidado
+ *
+ * La siguiente secuencia de comandos permite **corregir el problema
+ * sin perder el trabajo del alumno**.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @subsection lesson00_git_fix_steps Secuencia de corrección estándar
+ *
+ * Ejecuta estos comandos desde la raíz del repositorio:
+ *
+ * @code
+ * git restore --staged .
+ * git restore .
+ * git add student/
+ * git commit -m "Fix: only student changes"
+ * git push
+ * @endcode
+ *
+ * Explicación:
+ * - git restore --staged .  : quita todos los archivos del staging
+ * - git restore .          : revierte archivos modificados al estado del repositorio
+ * - git add student/       : agrega únicamente el trabajo del alumno
+ * - git commit             : crea un commit limpio y válido
+ * - git push               : sube los cambios corregidos
+ *
+ * Si después de esto el CI sigue fallando, revisa el mensaje del workflow
+ * para identificar archivos adicionales fuera de student/.
+ *
+ * ----------------------------------------------------------------------
+ *
+ * @subsection lesson00_git_fix_rule Regla de oro
+ *
+ * En este curso:
+ *
+ * - SIEMPRE usar:
+ *
+ * @code
+ * git add student/
+ * @endcode
+ *
+ * - NUNCA usar:
+ *
+ * @code
+ * git add .
+ * @endcode
+ *
+ * El CI está diseñado para fallar si esta regla no se cumple.
+ * 
+ * ----------------------------------------------------------------------
  *
  * @section lesson00_next Siguiente lección
  *
